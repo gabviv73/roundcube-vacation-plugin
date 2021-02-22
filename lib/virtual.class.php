@@ -48,7 +48,7 @@ class Virtual extends VacationDriver {
         //   print_r($vacArr);
         $fwdArr = $this->virtual_alias();
 
-        $sql = sprintf("SELECT subject,body,active FROM vacation WHERE email='%s'",
+        $sql = sprintf("SELECT subject,body,active FROM {$this->cfg['dbase']}.vacation WHERE email='%s'",
                 rcube::Q($this->user->data['username']));
 
         $res = $this->db->query($sql);
@@ -83,7 +83,7 @@ class Virtual extends VacationDriver {
         // Sets class property
         $this->domain_id = $this->domainLookup();
 
-        $sql = sprintf("UPDATE vacation SET created=now(),active=FALSE WHERE email='%s'", rcube::Q($this->user->data['username']));
+        $sql = sprintf("UPDATE {$this->cfg['dbase']}.vacation SET created=now(),active=FALSE WHERE email='%s'", rcube::Q($this->user->data['username']));
 
 
         $this->db->query($sql);
