@@ -80,6 +80,10 @@ class DotForward {
     
     public function parse($dotForward) {
 
+        // parse files with multiple lines and comments like squirrelmail .forward
+        $dotForward = preg_replace('/#[^\n\r]+/','', $dotForward); // remove comments
+        $dotForward = preg_replace('/[\n\r]/',',', $dotForward);   // join lines with comma
+
         // Clean up the .forward file for easier parsing
         $dotForward = str_replace(array("|", "\"", "\\"), "", $dotForward);
 
