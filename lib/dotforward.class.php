@@ -115,7 +115,11 @@ class DotForward {
                 $this->options['enabled'] = !empty($this->options['binary']);
             } else {
 
-                $this->options['forward'] = $next;
+                if ( $this->options['forward'] ) {
+                    $this->options['forward'] = $this->options['forward'] . ', ' . $next;
+                } else {
+                    $this->options['forward'] = $next;
+                }
             }
         }
 
