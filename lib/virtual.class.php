@@ -48,7 +48,7 @@ class Virtual extends VacationDriver {
         //   print_r($vacArr);
         $fwdArr = $this->virtual_alias();
 
-        $sql = sprintf("SELECT subject,body,active FROM {$this->cfg['dbase']}.vacation WHERE email='%s'",
+        $sql = sprintf("SELECT subject,body,active FROM vacation WHERE email='%s'",
                 rcube::Q($this->user->data['username']));
 
         $res = $this->db->query($sql);
@@ -83,7 +83,7 @@ class Virtual extends VacationDriver {
         // Sets class property
         $this->domain_id = $this->domainLookup();
 
-        $sql = sprintf("UPDATE {$this->cfg['dbase']}.vacation SET created=now(),active=FALSE WHERE email='%s'", rcube::Q($this->user->data['username']));
+        $sql = sprintf("UPDATE vacation SET created=now(),active=FALSE WHERE email='%s'", rcube::Q($this->user->data['username']));
 
 
         $this->db->query($sql);
@@ -110,11 +110,11 @@ class Virtual extends VacationDriver {
 
 	      // LIMIT date arbitrarily put to next century (vacation.pl doesn't like NULL value)
         if (!$update) {
-            $sql = "INSERT INTO {$this->cfg['dbase']}.vacation ".
+            $sql = "INSERT INTO vacation ".
                 "( email, subject, body, cache, domain, created, active, activefrom, activeuntil ) ".
-                "VALUES ( ?, ?, ?, '', ?, NOW(), ?, NOW(), NOW() + INTERVAL + 10 YEAR )";
+                "VALUES ( ?, ?, ?, '', ?, NOW(), ?, NOW(), NOW() + INTERVAL '100 YEAR' )";
         } else {
-            $sql = "UPDATE {$this->cfg['dbase']}.vacation SET email=?,subject=?,body=?,domain=?,active=?, activefrom=NOW(), activeuntil=NOW() + INTERVAL + 10 YEAR WHERE email=?";
+            $sql = "UPDATE vacation SET email=?,subject=?,body=?,domain=?,active=?, activefrom=NOW(), activeuntil=NOW() + INTERVAL '100 YEAR' WHERE email=?";
         }
 	      if ($this->enable == '') {
             $this->enable = 0;
