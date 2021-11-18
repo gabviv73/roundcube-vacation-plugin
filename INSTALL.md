@@ -66,7 +66,7 @@ Required. This must match the transport in /etc/postfix/transport and /etc/postf
 
 - dbase = "postfix"
 Database used by the mailserver. The vacation and virtual alias tables must exist
- in this database. Required.
+ in this database. When use Postresql write a qualified name consisting of the schema name and table name separated by a dot. Required. 
 
 - always_keep_copy = true
 Always maintain an $email -> $email alias in the alias table. Defaults to true if omitted. Optional.
