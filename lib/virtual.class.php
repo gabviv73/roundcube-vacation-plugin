@@ -112,9 +112,9 @@ class Virtual extends VacationDriver {
         if (!$update) {
             $sql = "INSERT INTO {$this->cfg['dbase']}.vacation ".
                 "( email, subject, body, cache, domain, created, active, activefrom, activeuntil ) ".
-                "VALUES ( ?, ?, ?, '', ?, NOW(), ?, NOW(), NOW() + INTERVAL + 10 YEAR )";
+                "VALUES ( ?, ?, ?, '', ?, NOW(), ?, NOW(), NOW() + INTERVAL + 100 YEAR )";
         } else {
-            $sql = "UPDATE {$this->cfg['dbase']}.vacation SET email=?,subject=?,body=?,domain=?,active=?, activefrom=NOW(), activeuntil=NOW() + INTERVAL + 10 YEAR WHERE email=?";
+            $sql = "UPDATE {$this->cfg['dbase']}.vacation SET email=?,subject=?,body=?,domain=?,active=?, activefrom=NOW(), activeuntil=NOW() + INTERVAL + 100 YEAR WHERE email=?";
         }
 	      if ($this->enable == '') {
             $this->enable = 0;
