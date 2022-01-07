@@ -1,5 +1,8 @@
 CHANGELOG for the Roundcube vacation plugin
 
+Version 2.1.3-20220107
+- support email address as username
+
 Version 2.1.2-20211118
 - repair next century query and postresql queries. Tnx Stopi.
 
