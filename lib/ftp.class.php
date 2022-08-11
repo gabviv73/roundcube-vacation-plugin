@@ -15,7 +15,8 @@ class FTP extends VacationDriver {
 	private $ftp = false;
 
 	public function init() {
-		$username = rcube::Q($this->user->data['username']);
+		$username_fields = explode('@',rcube::Q($this->user->data['username']),2);
+        	$this->user->data['username'] = $username = $username_fields[0];
 		$userpass = $this->rcmail->decrypt($_SESSION['password']);
 
 		// 15 second time-out
