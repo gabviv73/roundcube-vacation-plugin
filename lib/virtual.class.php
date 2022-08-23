@@ -15,6 +15,11 @@ class Virtual extends VacationDriver {
 
     private $db, $domain, $domain_id, $goto = "";
     private $db_user;
+    /** @var bool $db_is_postgres sometimes query's syntax depend on database
+     *            true  => means postgresql is used
+     *            false => means mysql is used
+     */
+    private $db_is_postgres;
     
     public function init() {
         // Use the DSN from db.inc.php or a dedicated DSN defined in config.ini
@@ -34,10 +39,13 @@ class Virtual extends VacationDriver {
         // Save username for error handling
         $this->db_user = $dsn['username'];
 
+        $this->db_is_postgres = $dsn['dbsyntax'] == 'pgsql';
+
         if (isset($this->cfg['createvacationconf']) && $this->cfg['createvacationconf']) {
 
             $this->createVirtualConfig($dsn);
         }
+
     }
 
     /*
@@ -109,12 +117,13 @@ class Virtual extends VacationDriver {
         // Save vacation message in any case
 
 	      // LIMIT date arbitrarily put to next century (vacation.pl doesn't like NULL value)
+        $interval = $this->db_is_postgres ? "INTERVAL '100 YEAR'" : 'INTERVAL 100 YEAR';
         if (!$update) {
             $sql = "INSERT INTO {$this->cfg['dbase']}.vacation ".
                 "( email, subject, body, cache, domain, created, active, activefrom, activeuntil ) ".
-                "VALUES ( ?, ?, ?, '', ?, NOW(), ?, NOW(), NOW() + INTERVAL + 100 YEAR )";
+                "VALUES ( ?, ?, ?, '', ?, NOW(), ?, NOW(), NOW() + $interval )";
         } else {
-            $sql = "UPDATE {$this->cfg['dbase']}.vacation SET email=?,subject=?,body=?,domain=?,active=?, activefrom=NOW(), activeuntil=NOW() + INTERVAL + 100 YEAR WHERE email=?";
+            $sql = "UPDATE {$this->cfg['dbase']}.vacation SET email=?,subject=?,body=?,domain=?,active=?, activefrom=NOW(), activeuntil=NOW() + $interval WHERE email=?";
         }
 	      if ($this->enable == '') {
             $this->enable = 0;
