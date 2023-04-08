@@ -31,6 +31,9 @@ This driver has no configuration options. Use this driver to disable the
 - server = "ftp.host.org"
 If 'server' is omitted, the FTP driver will use the current IMAP-server as server. Optional.
 
+- port = "21"
+If 'port' is omitted, the FTP driver will use the default port 21. Optional.
+
 - passive = False
 If set, the FTP driver will try to establish a passive FTP connection. Optional.
 
@@ -41,6 +44,9 @@ If set to True, the end-user will not be able to set forwards. Defaults to false
 [*** SSHFTP Driver ***]
 - server = "ssh.host.org"
 If 'server' is omitted, the SSHFTP driver will use the current IMAP-server as server. Optional.
+
+- port = "22"
+If 'port' is omitted, the SSHFTP driver will use the default port 22. Optional.
 
 - disable_forward = False
 If set to True, the end-user will not be able to set forwards. Defaults to false. Optional.
