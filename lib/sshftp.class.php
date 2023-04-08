@@ -25,8 +25,14 @@ class SSHFTP extends VacationDriver {
 		$userpass = $this->rcmail->decrypt($_SESSION['password']);
 
 		$callback = array();
-				
-		if (! $this->conn = ssh2_connect($this->cfg['server'],22,null,$callback)) {
+		
+		if (array_key_exists('port',$this->cfg)){
+			$port = $this->cfg['port'] ;
+		} else {
+			$port = 22 ;
+		}
+		
+		if (! $this->conn = ssh2_connect($this->cfg['server'],$port,null,$callback)) {
 			 rcube::raise_error(array('code' => 601, 'type' => 'php', 'file' => __FILE__,
                 'message' => sprintf("Vacation plugin: Cannot connect to the SSH-server '%s'",$this->cfg['server'])
 			),true, true);
