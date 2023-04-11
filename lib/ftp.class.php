@@ -18,9 +18,15 @@ class FTP extends VacationDriver {
 		$username_fields = explode('@',rcube::Q($this->user->data['username']),2);
         	$this->user->data['username'] = $username = $username_fields[0];
 		$userpass = $this->rcmail->decrypt($_SESSION['password']);
-
+		
+		if (array_key_exists('port',$this->cfg)){
+			$port = $this->cfg['port'] ;
+		} else {
+			$port = 21 ;
+		}
+		
 		// 15 second time-out
-		if (! $this->ftp = ftp_ssl_connect($this->cfg['server'],21,15)) {
+		if (! $this->ftp = ftp_ssl_connect($this->cfg['server'],$port,15)) {
 			 rcube::raise_error(array('code' => 601, 'type' => 'php', 'file' => __FILE__,
                 'message' => sprintf("Vacation plugin: Cannot connect to the FTP-server '%s'",$this->cfg['server'])
 			),true, true);
