@@ -13,6 +13,8 @@
 
 class Virtual extends VacationDriver {
 
+    public $identity;
+
     private $db, $domain, $domain_id, $goto = "";
     private $db_user;
     /** @var bool $db_is_postgres sometimes query's syntax depend on database
