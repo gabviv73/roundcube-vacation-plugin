@@ -21,6 +21,9 @@ require 'lib/VacationConfig.class.php';
 class vacation extends rcube_plugin {
 
     public $task = 'settings';
+    public $rcmail;
+    public $user;
+    public $identity;
     private $v = "";
     private $inicfg = "";
     private $enableVacationTab = true;
@@ -115,6 +118,9 @@ class vacation extends rcube_plugin {
         // Initialize the driver
         $this->v->init();
         $settings = $this->v->_get();
+
+        $out = '';
+        $class = ''; //$class not used
         
         // Load default body & subject if present.
         if (empty($settings['subject']) && $defaults = $this->v->loadDefaults()) {

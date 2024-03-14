@@ -13,6 +13,8 @@
 
 class Virtual extends VacationDriver {
 
+    public $identity;
+
     private $db, $domain, $domain_id, $goto = "";
     private $db_user;
     /** @var bool $db_is_postgres sometimes query's syntax depend on database
@@ -128,12 +130,22 @@ class Virtual extends VacationDriver {
 	      if ($this->enable == '') {
             $this->enable = 0;
         }
+
+        //mysql version of postfixadmin vacation table use 'active' column with tinyint(1)
+        //pgsql version of postfixadmin vacation table use 'active' column with true/false bool
+        $enable_status = $this->enable;
+        if($this->db_is_postgres) {
+          $enable_status = $this->enable ? 'TRUE' : 'FALSE';
+        }else{
+          $enable_status = $this->enable ? '1' : '0';
+        }
+
         $this->db->query($sql, 
 	          rcube::Q($this->user->data['username']), 
 	          $this->subject, 
 	          $this->body,
 	          $this->domain,
-	          $this->enable ? 'TRUE' : 'FALSE',
+	          $enable_status,
 	          rcube::Q($this->user->data['username']));
         if ($error = $this->db->is_error()) {
             if (strpos($error, "no such field")) {
