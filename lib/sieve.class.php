@@ -23,7 +23,12 @@ class Sieve extends VacationDriver {
 	private $sieve = null;
 
         private $tls = false;
-        private $port = 2000;
+
+		if (array_key_exists('port',$this->cfg)){
+			$port = $this->cfg['port'] ;
+		} else {
+			$port = 2000 ;
+		}
 
         public function init() {
             // try to connect to managesieve server and to fetch the script
@@ -35,7 +40,7 @@ class Sieve extends VacationDriver {
             require 'plugins/managesieve/lib/Net/Sieve.php';
 
             $this->sieve = new Net_Sieve();
-            $error = $this->sieve->connect("192.168.178.25", $this->cfg['port'], NULL, $this->cfg['tls']);
+            $error = $this->sieve->connect($this->cfg['server'], $this->cfg['port'], NULL, $this->cfg['tls']);
            
                 echo $error;
                 
